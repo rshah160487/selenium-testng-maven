@@ -1,0 +1,35 @@
+pipeline {
+    agent any
+    tools {
+        maven 'Maven 3.8.5'
+    }
+    stages {
+        stage('Checkout') {
+            steps {
+                git 'https://github.com/rshah160487/rshah-selenium-testng.git'
+            }
+        }
+        stage('Build and Test') {
+            steps {
+                sh 'mvn clean test'
+            }
+        }
+        stage('Publish Reports') {
+            steps {
+                publishHTML([
+                    allowMissing: false,
+                    alwaysLinkToLastBuild: true,
+                    keepAll: true,
+                    reportDir: 'target/extent-reports',
+                    reportFiles: 'ExtentReport.html',
+                    reportName: 'Extent Reports'
+                ])
+            }
+        }
+    }
+    post {
+        always {
+            archiveArtifacts artifacts: 'target/screenshots/**/*, target/extent-reports/**/*', fingerprint: true
+        }
+    }
+}
