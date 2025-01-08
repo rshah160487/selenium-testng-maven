@@ -1,7 +1,7 @@
       pipeline {
         agent any
         tools {
-                git 'Default Git' // Name of the Git tool configured in Jenkins
+                git 'Default' // Name of the Git tool configured in Jenkins
             }
         environment {
             REPORT_DIR = 'target/extent-reports'
