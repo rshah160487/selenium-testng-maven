@@ -1,35 +1,98 @@
-pipeline {
-    agent any
-    tools {
-        maven 'Maven 3.8.5'
-    }
-    stages {
-        stage('Checkout') {
-            steps {
-                git 'https://github.com/rshah160487/rshah-selenium-testng.git'
+      pipeline {
+        agent any
+            tools {
+                maven 'Maven 3.8.5'
+            }
+        environment {
+            REPORT_DIR = 'target/extent-reports'
+            SCREENSHOT_DIR = 'target/screenshots'
+        }
+
+        stages {
+           stage('Setup') {
+              script {
+                echo "Creating directories for reports and screenshots..."
+                sh "mkdir -p ${REPORT_DIR}"
+                sh "mkdir -p ${SCREENSHOT_DIR}"
+                }
+            }
+           stage('Checkout') {
+                steps {
+                      git 'https://github.com/rshah160487/rshah-selenium-testng.git'
+                      }
+            }
+
+           stage('Build') {
+                steps {
+                    echo 'Running build step...'
+                    sh 'mvn clean compile'
+                }
+            }
+
+           stage('Test') {
+                steps {
+                    echo 'Running tests...'
+                    sh 'mvn test'
+                }
+            }
+
+           stage('Generate Reports') {
+                steps {
+                    echo 'Generating reports...'
+                    sh 'mvn site'
+                }
+            }
+
+           stage('Archive Artifacts') {
+                steps {
+                    echo 'Archiving reports and screenshots...'
+                    archiveArtifacts artifacts: "${REPORT_DIR}/**", fingerprint: true
+                    publishHTML([allowMissing: true, alwaysLinkToLastBuild: true, keepAll: true, reportDir: "${REPORT_DIR}", reportFiles: 'ExtentReport.html', reportName: 'Extent Report'])
+                }
             }
         }
-        stage('Build and Test') {
-            steps {
-                sh 'mvn clean test'
+
+        post {
+            always {
+                echo 'Cleaning up workspace...'
+                cleanWs()
             }
-        }
-        stage('Publish Reports') {
-            steps {
-                publishHTML([
-                    allowMissing: false,
-                    alwaysLinkToLastBuild: true,
-                    keepAll: true,
-                    reportDir: 'target/extent-reports',
-                    reportFiles: 'ExtentReport.html',
-                    reportName: 'Extent Reports'
-                ])
+            success {
+                echo 'Build succeeded!'
+            }
+            failure {
+                echo 'Build failed!'
             }
         }
     }
-    post {
-        always {
-            archiveArtifacts artifacts: 'target/screenshots/**/*, target/extent-reports/**/*', fingerprint: true
-        }
-    }
-}
+
+//     stages {
+//         stage('Checkout') {
+//             steps {
+//                 git 'https://github.com/rshah160487/rshah-selenium-testng.git'
+//             }
+//         }
+//         stage('Build and Test') {
+//             steps {
+//                 sh 'mvn clean test'
+//             }
+//         }
+//         stage('Publish Reports') {
+//             steps {
+//                 publishHTML([
+//                     allowMissing: false,
+//                     alwaysLinkToLastBuild: true,
+//                     keepAll: true,
+//                     reportDir: 'target/extent-reports',
+//                     reportFiles: 'ExtentReport.html',
+//                     reportName: 'Extent Reports'
+//                 ])
+//             }
+//         }
+//     }
+//     post {
+//         always {
+//             archiveArtifacts artifacts: 'target/screenshots/**/*, target/extent-reports/**/*', fingerprint: true
+//         }
+//     }
+// }
