@@ -1,8 +1,5 @@
       pipeline {
         agent any
-            tools {
-                maven 'Maven 3.8.5'
-            }
         environment {
             REPORT_DIR = 'target/extent-reports'
             SCREENSHOT_DIR = 'target/screenshots'
@@ -10,11 +7,13 @@
 
         stages {
            stage('Setup') {
-              script {
+              steps{
+                script {
                 echo "Creating directories for reports and screenshots..."
                 sh "mkdir -p ${REPORT_DIR}"
                 sh "mkdir -p ${SCREENSHOT_DIR}"
                 }
+              }
             }
            stage('Checkout') {
                 steps {
