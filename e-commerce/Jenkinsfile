@@ -6,6 +6,7 @@
         environment {
             REPORT_DIR = 'target/extent-reports'
             SCREENSHOT_DIR = 'target/screenshots'
+            POM_PATH = 'e-commerce/pom.xml'
         }
 
         stages {
@@ -18,30 +19,25 @@
                 }
               }
             }
-//            stage('Checkout') {
-//                 steps {
-//                       git 'https://github.com/rshah160487/rshah-selenium-testng.git'
-//                       }
-//             }
 
            stage('Build') {
                 steps {
                     echo 'Running build step...'
-                    sh 'mvn clean compile'
+                    sh 'mvn -f $POM_PATH clean compile'
                 }
             }
 
            stage('Test') {
                 steps {
                     echo 'Running tests...'
-                    sh 'mvn test'
+                    sh 'mvn -f $POM_PATH test'
                 }
             }
 
            stage('Generate Reports') {
                 steps {
                     echo 'Generating reports...'
-                    sh 'mvn site'
+                    sh 'mvn -f $POM_PATH site'
                 }
             }
 
