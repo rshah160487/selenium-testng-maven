@@ -1,9 +1,9 @@
       pipeline {
         agent any
-        tools {
-                git 'Default' // Name of the Git tool configured in Jenkins
-            }
+
         environment {
+            JAVA_HOME = '/opt/homebrew/opt/openjdk'
+            PATH = "${JAVA_HOME}/bin:${env.PATH}"
             REPORT_DIR = 'target/extent-reports'
             SCREENSHOT_DIR = 'target/screenshots'
             POM_PATH = 'e-commerce/pom.xml'
