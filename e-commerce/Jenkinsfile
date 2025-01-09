@@ -18,11 +18,11 @@
                 }
               }
             }
-           stage('Checkout') {
-                steps {
-                      git 'https://github.com/rshah160487/rshah-selenium-testng.git'
-                      }
-            }
+//            stage('Checkout') {
+//                 steps {
+//                       git 'https://github.com/rshah160487/rshah-selenium-testng.git'
+//                       }
+//             }
 
            stage('Build') {
                 steps {
