@@ -3,6 +3,7 @@ package com.support.baseTest;
 import io.github.bonigarcia.wdm.WebDriverManager;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.edge.EdgeDriver;
 import org.testng.annotations.BeforeSuite;
 import org.testng.annotations.AfterSuite;
@@ -23,22 +24,32 @@ import java.util.Properties;
             String browser = properties.getProperty("browser");
             if (browser.equalsIgnoreCase("chrome")) {
                 WebDriverManager.chromedriver().setup();
-                driver.set(new ChromeDriver());
+                ChromeOptions options = new ChromeOptions();
+                options.addArguments("--headless", "--disable-gpu");
+                driver.set(new ChromeDriver(options));
             } else if (browser.equalsIgnoreCase("edge")) {
                 WebDriverManager.edgedriver().setup();
                 driver.set(new EdgeDriver());
+            }
+
+            if (driver.get() == null) {
+                throw new IllegalStateException("WebDriver initialization failed!");
             }
             getDriver().manage().window().maximize();
             getDriver().get(properties.getProperty("url"));
         }
 
-        public static WebDriver getDriver() {
+        public static WebDriver getDriver()
+        {
             return driver.get();
         }
 
         @AfterSuite
-        public void tearDown() {
-            getDriver().quit();
+        public void tearDown()
+        {
+            if (getDriver() != null) {
+                getDriver().quit();
+            }
         }
     }
 

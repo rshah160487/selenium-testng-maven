@@ -9,6 +9,9 @@ public class LoginPage {
     WebDriver driver;
 
     public LoginPage(WebDriver driver) {
+        if (driver == null) {
+            throw new IllegalStateException("WebDriver is null. Check the setup method.");
+        }
         this.driver = driver;
         PageFactory.initElements(driver, this);
     }
