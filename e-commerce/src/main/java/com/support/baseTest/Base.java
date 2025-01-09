@@ -1,5 +1,6 @@
 package com.support.baseTest;
 
+import io.github.bonigarcia.wdm.WebDriverManager;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.edge.EdgeDriver;
@@ -21,8 +22,10 @@ import java.util.Properties;
 
             String browser = properties.getProperty("browser");
             if (browser.equalsIgnoreCase("chrome")) {
+                WebDriverManager.chromedriver().setup();
                 driver.set(new ChromeDriver());
             } else if (browser.equalsIgnoreCase("edge")) {
+                WebDriverManager.edgedriver().setup();
                 driver.set(new EdgeDriver());
             }
             getDriver().manage().window().maximize();
