@@ -27,9 +27,11 @@ import java.util.Properties;
                 ChromeOptions options = new ChromeOptions();
                 options.addArguments("--headless", "--disable-gpu");
                 driver.set(new ChromeDriver(options));
+                System.out.println("ChromeDriver initialized successfully.");
             } else if (browser.equalsIgnoreCase("edge")) {
                 WebDriverManager.edgedriver().setup();
                 driver.set(new EdgeDriver());
+                System.out.println("EdgeDriver is initialized successfully.");
             }
 
             if (driver.get() == null) {
