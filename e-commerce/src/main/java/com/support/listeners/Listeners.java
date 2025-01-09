@@ -2,6 +2,7 @@ package com.support.listeners;
 import com.aventstack.extentreports.ExtentReports;
 import com.aventstack.extentreports.ExtentTest;
 import com.aventstack.extentreports.Status;
+import com.support.baseTest.Base;
 import com.support.utilities.ExtentManager;
 import org.apache.commons.io.FileUtils;
 import org.openqa.selenium.OutputType;
@@ -11,8 +12,6 @@ import org.testng.ITestListener;
 import org.testng.ITestResult;
 import java.io.File;
 import java.io.IOException;
-
-import static com.support.baseTest.Base.getDriver;
 
 public class Listeners implements ITestListener {
     private ExtentReports extent = ExtentManager.getExtentReports();
@@ -33,7 +32,7 @@ public class Listeners implements ITestListener {
     public void onTestFailure(ITestResult result) {
         extentTest.get().log(Status.FAIL, "Test Failed: " + result.getMethod().getMethodName());
         extentTest.get().log(Status.FAIL, result.getThrowable());
-        File screenshot = ((TakesScreenshot) getDriver()).getScreenshotAs(OutputType.FILE);
+        File screenshot = ((TakesScreenshot) Base.getDriver()).getScreenshotAs(OutputType.FILE);
         String screenshotPath = System.getProperty("user.dir") + "/target/screenshots/" + result.getMethod().getMethodName() + ".png";
 
         try {

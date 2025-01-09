@@ -15,8 +15,8 @@ public class LoginTest extends Base {
         WebDriver driver = Base.getDriver();
         LoginPage loginPage = new LoginPage(driver);
         loginPage.login(properties.getProperty("username"), properties.getProperty("password"));
-        Assert.assertEquals(getDriver().getTitle(), "My Account");
-        Assert.assertEquals(getDriver().findElement(By.linkText("My Orders")).getText(), "My Orders");
+        Assert.assertEquals(Base.getDriver().getTitle(), "My Account");
+        Assert.assertEquals(Base.getDriver().findElement(By.linkText("My Orders")).getText(), "My Orders");
     }
 
 }

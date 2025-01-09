@@ -35,12 +35,17 @@ import java.util.Properties;
             if (driver.get() == null) {
                 throw new IllegalStateException("WebDriver initialization failed!");
             }
+
+            System.out.println("Driver initialized successfully.");
             getDriver().manage().window().maximize();
             getDriver().get(properties.getProperty("url"));
         }
 
         public static WebDriver getDriver()
         {
+            if (driver.get() == null) {
+                throw new IllegalStateException("Driver is not initialized!");
+            }
             return driver.get();
         }
 
@@ -49,6 +54,7 @@ import java.util.Properties;
         {
             if (getDriver() != null) {
                 getDriver().quit();
+                driver.remove();
             }
         }
     }
