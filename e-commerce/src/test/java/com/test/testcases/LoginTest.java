@@ -10,7 +10,6 @@ import org.testng.annotations.Test;
 
 @Listeners(com.support.listeners.Listeners.class)
 public class LoginTest extends Base {
-
     @Test
     public void testLogin() {
         WebDriver driver = Base.getDriver();
