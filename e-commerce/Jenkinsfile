@@ -10,6 +10,12 @@
         }
 
         stages {
+           stage('Check Chrome Version') {
+                steps {
+                        sh 'google-chrome --version' // Or 'chromium --version'
+                    }
+                }
+
            stage('Setup') {
               steps{
                 script {
