@@ -45,10 +45,10 @@
            stage('Archive Artifacts') {
                 steps {
                     script {
-                              if (fileExists("${REPORT_DIR}/ExtentReport.html")) {
+                              if (!fileExists("${REPORT_DIR}/ExtentReport.html")) {
                                 echo 'Archiving reports and screenshots...'
                                  archiveArtifacts artifacts: "${REPORT_DIR}/**", fingerprint: true
-                                            publishHTML([allowMissing: true, alwaysLinkToLastBuild: true, keepAll: true, reportDir: "${REPORT_DIR}", reportFiles: 'ExtentReport.html', reportName: 'Extent Report'])
+                                            publishHTML([allowMissing: false, alwaysLinkToLastBuild: true, keepAll: true, reportDir: "${REPORT_DIR}", reportFiles: 'ExtentReport.html', reportName: 'Extent Report'])
                                         } else {
                                             echo 'Report not found, skipping archive.'
                                         }
