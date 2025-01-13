@@ -1,0 +1,72 @@
+      pipeline {
+        agent any
+
+        environment {
+            JAVA_HOME = '/opt/homebrew/opt/openjdk'
+            PATH = "${JAVA_HOME}/bin:${env.PATH}"
+            REPORT_DIR = 'target/extent-reports'
+            SCREENSHOT_DIR = 'target/screenshots'
+            POM_PATH = 'e-commerce/pom.xml'
+        }
+
+        stages {
+
+           stage('Setup') {
+              steps{
+                script {
+                echo "Creating directories for reports and screenshots..."
+                sh "mkdir -p ${REPORT_DIR}"
+                sh "mkdir -p ${SCREENSHOT_DIR}"
+                }
+              }
+            }
+
+           stage('Build') {
+                steps {
+                    echo 'Running build step...'
+                    sh 'mvn -f $POM_PATH clean compile'
+                }
+            }
+
+           stage('Test') {
+                steps {
+                    echo 'Running tests...'
+                    sh 'mvn -f $POM_PATH test'
+                }
+            }
+
+           stage('Generate Reports') {
+                steps {
+                    echo 'Generating reports...'
+                    sh 'mvn -f $POM_PATH site'
+                }
+            }
+
+           stage('Archive Artifacts') {
+                steps {
+                    script {
+                              if (fileExists("${REPORT_DIR}/ExtentReport.html")) {
+                                echo 'Archiving reports and screenshots...'
+                                 archiveArtifacts artifacts: "${REPORT_DIR}/**", fingerprint: true
+                                            publishHTML([allowMissing: true, alwaysLinkToLastBuild: true, keepAll: true, reportDir: "${REPORT_DIR}", reportFiles: 'ExtentReport.html', reportName: 'Extent Report'])
+                                        } else {
+                                            echo 'Report not found, skipping archive.'
+                                        }
+                                    }
+                                }
+                            }
+                         }
+
+        post {
+            always {
+                echo 'Cleaning up workspace...'
+                cleanWs()
+            }
+            success {
+                echo 'Build succeeded!'
+            }
+            failure {
+                echo 'Build failed!'
+            }
+        }
+    }

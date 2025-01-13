@@ -1,0 +1,10 @@
+<suite name="Ecommerce Suite" parallel="methods" thread-count="2">
+    <listeners>
+        <listener class-name="com.support.listeners.Listeners" />
+    </listeners>
+    <test name="Login Test">
+        <classes>
+            <class name="com.test.testcases.LoginTest" />
+        </classes>
+    </test>
+</suite>

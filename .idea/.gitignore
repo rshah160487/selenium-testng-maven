@@ -1,0 +1,22 @@
+# Default ignored files
+/shelf/
+/workspace.xml
+
+# Ignore build files
+/target/
+
+# Ignore screenshots (optional, unless needed)
+/src/test/resources/hashtag/screenshots/
+/target/screenshots/
+
+# Ignore logs
+*.log
+
+# Ignore OS-specific files
+.DS_Store
+Thumbs.db
+
+# Ignore IntelliJ IDEA files
+.idea/
+*.iml
+
