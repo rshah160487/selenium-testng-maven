@@ -45,8 +45,8 @@ selenium-testng-maven/
 
 1. **Clone the Repository:**
    ```bash
-   git clone https://github.com/rshah160487/rshah-selenium-testng.git
-   cd rshah-selenium-testng/e-commerce
+   git clone https://github.com/rshah160487/selenium-testng-maven.git
+   cd selenium-testng-maven/e-commerce
    ```
 
 2. **Configure Maven:**
