@@ -5,7 +5,7 @@ This repository contains a Selenium-based test automation framework integrated w
 ## **Project Structure**
 
 ```
-rshah-selenium-testng/
+selenium-testng-maven/
 |-- e-commerce/
     |-- src/
         |-- main/
