@@ -129,6 +129,10 @@ These reports provide detailed insights into test execution, including pass/fail
 3. Commit your changes and push to your forked repository.
 4. Create a pull request to the `main` branch.
 
+## **License**
+
+This project is licensed under the GNU General Public License v3.0. See the LICENSE file for details.
+
 ## **Contact**
 For issues or contributions, please create a GitHub issue or contact the repository owner.
 
